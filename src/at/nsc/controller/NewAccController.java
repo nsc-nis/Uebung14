@@ -2,28 +2,19 @@ package at.nsc.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**Übung 14 - Controller
  * @author Niklas Schachl
  * @version 1.0, 18.2.2021
  */
-public class MainController implements Initializable
+public class NewAccController
 {
     private Stage stage;
-
-    @FXML
-    private Label label_indicator;
     @FXML
     private TextField textField_name;
     @FXML
@@ -35,14 +26,14 @@ public class MainController implements Initializable
     {
         try
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/at/nsc/view/mainView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(NewAccController.class.getResource("/at/nsc/view/newAccView.fxml"));
             Parent root = fxmlLoader.load();
 
             //get controller which is connected to this fxml file
-            MainController ctrl = fxmlLoader.getController();
+            NewAccController ctrl = fxmlLoader.getController();
             ctrl.stage = stage;
 
-            stage.setTitle("People");
+            stage.setTitle("Account creation wizard");
             //stage.getIcons().add(new Image("/at/nsc/images/icon_logo.png"));
             stage.setScene(new Scene(root));
             stage.show();
@@ -58,49 +49,14 @@ public class MainController implements Initializable
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
     @FXML
-    private void action_back()
-    {
-
-    }
-
-    @FXML
-    private void action_add()
-    {
-
-    }
-
-    @FXML
-    private void action_export()
-    {
-
-    }
-
-    @FXML
-    private void action_delete()
-    {
-
-    }
-
-    @FXML
-    private void action_next()
+    private void action_cancel()
     {
 
     }
 
     @FXML
     private void action_save()
-    {
-
-    }
-
-    @FXML
-    private void action_import()
     {
 
     }
