@@ -3,7 +3,7 @@ package at.nsc.main;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-/**
+/**Übung 14 - Main
  * @author Niklas Schachl
  * @version 1.0, 18.2.2021
  */
