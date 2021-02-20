@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -20,33 +19,29 @@ import java.util.ResourceBundle;
  * @author Niklas Schachl
  * @version 1.0, 20.2.2021
  */
-public class NewAccController implements Initializable
+public class FileController implements Initializable
 {
     private Stage stage;
     @FXML
-    private TextField textField_name;
-    @FXML
-    private TextField textField_address;
-    @FXML
-    private TextField textField_phone;
+    private TextField textField_fileName;
     @FXML
     private Button button_cancel;
     @FXML
-    private Button button_save;
+    private Button button_next;
 
     public static void show(Stage stage)
     {
         try
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(NewAccController.class.getResource("/at/nsc/view/newAccView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(FileController.class.getResource("/at/nsc/view/newAccView.fxml"));
             Parent root = fxmlLoader.load();
 
             //get controller which is connected to this fxml file
-            NewAccController ctrl = fxmlLoader.getController();
+            FileController ctrl = fxmlLoader.getController();
             ctrl.stage = stage;
 
-            stage.setTitle("Account Creation Wizard");
-            stage.getIcons().add(new Image("/at/nsc/images/icon_add.png"));
+            stage.setTitle("Open / Save file");
+            stage.getIcons().add(new Image("/at/nsc/images/icon_import.png"));
             stage.setScene(new Scene(root));
             stage.show();
         }
@@ -61,22 +56,10 @@ public class NewAccController implements Initializable
         }
     }
 
-    @FXML
-    private void action_cancel()
-    {
-        stage.close();
-    }
-
-    @FXML
-    private void action_save()
-    {
-
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         button_cancel.setGraphic(new ImageView(new Image("at/nsc/images/icon_delete.png")));
-        button_save.setGraphic(new ImageView(new Image("/at/nsc/images/icon_save.png")));
+        button_next.setGraphic(new ImageView(new Image("at/nsc/images/icon_next.png")));
     }
 }

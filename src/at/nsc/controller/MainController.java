@@ -6,9 +6,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -16,7 +18,7 @@ import java.util.ResourceBundle;
 
 /**Übung 14 - Controller
  * @author Niklas Schachl
- * @version 1.0, 18.2.2021
+ * @version 1.0, 20.2.2021
  */
 public class MainController implements Initializable
 {
@@ -30,6 +32,20 @@ public class MainController implements Initializable
     private TextField textField_address;
     @FXML
     private TextField textField_phone;
+    @FXML
+    private Button button_back;
+    @FXML
+    private Button button_next;
+    @FXML
+    private Button button_add;
+    @FXML
+    private Button button_delete;
+    @FXML
+    private Button button_save;
+    @FXML
+    private Button button_export;
+    @FXML
+    private Button button_import;
 
     public static void show(Stage stage)
     {
@@ -43,7 +59,7 @@ public class MainController implements Initializable
             ctrl.stage = stage;
 
             stage.setTitle("People");
-            //stage.getIcons().add(new Image("/at/nsc/images/icon_logo.png"));
+            stage.getIcons().add(new Image("/at/nsc/images/icon_people.png"));
             stage.setScene(new Scene(root));
             stage.show();
         }
@@ -59,8 +75,15 @@ public class MainController implements Initializable
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        button_back.setGraphic(new ImageView(new Image("at/nsc/images/icon_back.png")));
+        button_next.setGraphic(new ImageView(new Image("at/nsc/images/icon_next.png")));
+        button_add.setGraphic(new ImageView(new Image("at/nsc/images/icon_add.png")));
+        button_delete.setGraphic(new ImageView(new Image("at/nsc/images/icon_delete.png")));
+        button_save.setGraphic(new ImageView(new Image("/at/nsc/images/icon_save.png")));
+        button_export.setGraphic(new ImageView(new Image("at/nsc/images/icon_export.png")));
+        button_import.setGraphic(new ImageView(new Image("at/nsc/images/icon_import.png")));
     }
 
     @FXML
@@ -72,7 +95,7 @@ public class MainController implements Initializable
     @FXML
     private void action_add()
     {
-
+        NewAccController.show(new Stage());
     }
 
     @FXML

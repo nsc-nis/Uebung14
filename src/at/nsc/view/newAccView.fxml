@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="328.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.nsc.controller.NewAccController">
    <children>
       <Label alignment="CENTER" text="Create new Account">
@@ -23,8 +22,8 @@
       <TextField fx:id="textField_phone" />
       <HBox alignment="CENTER" prefHeight="220.0" prefWidth="328.0">
          <children>
-            <Button fx:id="action_cancel" mnemonicParsing="false" prefHeight="65.0" prefWidth="126.0" text="Cancel" />
-            <Button fx:id="action_save" alignment="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="126.0" text="Save" />
+            <Button fx:id="button_cancel" mnemonicParsing="false" onAction="#action_cancel" prefHeight="65.0" prefWidth="126.0" text="Cancel" />
+            <Button fx:id="button_save" alignment="CENTER" mnemonicParsing="false" onAction="#action_save" prefHeight="65.0" prefWidth="126.0" text="Save" />
          </children>
       </HBox>
    </children>
