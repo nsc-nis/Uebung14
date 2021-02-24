@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
  */
 public class FileController implements Initializable
 {
+    private String fileName;
     private Stage stage;
     @FXML
     private TextField textField_fileName;
@@ -28,6 +29,10 @@ public class FileController implements Initializable
     private Button button_cancel;
     @FXML
     private Button button_next;
+
+    public String getFileName() {
+        return fileName;
+    }
 
     public static void show(Stage stage)
     {
@@ -40,7 +45,7 @@ public class FileController implements Initializable
             FileController ctrl = fxmlLoader.getController();
             ctrl.stage = stage;
 
-            stage.setTitle("Open / Save file");
+            stage.setTitle("File path selector");
             stage.getIcons().add(new Image("/at/nsc/images/icon_import.png"));
             stage.setScene(new Scene(root));
             stage.show();
@@ -61,5 +66,17 @@ public class FileController implements Initializable
     {
         button_cancel.setGraphic(new ImageView(new Image("at/nsc/images/icon_delete.png")));
         button_next.setGraphic(new ImageView(new Image("at/nsc/images/icon_next.png")));
+    }
+
+    @FXML
+    private void action_cancel()
+    {
+        stage.close();
+    }
+
+    @FXML
+    private void action_next()
+    {
+        fileName = textField_fileName.getText();
     }
 }
