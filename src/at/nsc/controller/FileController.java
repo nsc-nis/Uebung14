@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,10 +22,8 @@ import java.util.ResourceBundle;
  */
 public class FileController implements Initializable
 {
-    private static String fileName;
     private static boolean isExport;
     private static Phonebook phonebookF;
-    private static Label labelIndicator;
     private Stage stage;
     @FXML
     private TextField textField_fileName;
@@ -35,7 +32,7 @@ public class FileController implements Initializable
     @FXML
     private Button button_next;
 
-    public static void show(Stage stage, boolean export, Phonebook phonebook, Label label)
+    public static void show(Stage stage, boolean export, Phonebook phonebook)
     {
         try
         {
@@ -52,7 +49,6 @@ public class FileController implements Initializable
             stage.show();
             isExport = export;
             phonebookF = phonebook;
-            labelIndicator = label;
         }
         catch (Exception exception)
         {
@@ -81,15 +77,13 @@ public class FileController implements Initializable
     @FXML
     private void action_next()
     {
-        fileName = textField_fileName.getText();
+        String fileName = textField_fileName.getText();
         stage.close();
 
         if (isExport)
             phonebookF.save(fileName);
         else {
-            if (phonebookF.load(fileName))
-                labelIndicator.setText(labelIndicator.getText() + ".");
+            phonebookF.load(fileName);
         }
-
     }
 }

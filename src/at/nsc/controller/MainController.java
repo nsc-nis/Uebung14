@@ -15,17 +15,20 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**Übung 14 - Controller
  * @author Niklas Schachl
- * @version 1.0, 20.2.2021
+ * @version 1.0, 25.2.2021
  */
 public class MainController implements Initializable
 {
-    private Stage stage;
     private Phonebook phonebook = new Phonebook();
     private int currentIndex = 0;
+    private final List<String> indicator = new ArrayList<>();
+    public static MainController ctrl;
 
     @FXML
     private Label label_indicator;
@@ -58,8 +61,7 @@ public class MainController implements Initializable
             Parent root = fxmlLoader.load();
 
             //get controller which is connected to this fxml file
-            MainController ctrl = fxmlLoader.getController();
-            ctrl.stage = stage;
+            ctrl = fxmlLoader.getController();
 
             stage.setTitle("People");
             stage.getIcons().add(new Image("/at/nsc/images/icon_people.png"));
@@ -99,12 +101,14 @@ public class MainController implements Initializable
         {
             displayPerson(currentIndex - 1);
             currentIndex--;
+            //label_indicator.setText(build_indicator());
+
         }
         catch (IndexOutOfBoundsException exception)
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("No more contacts");
-            alert.setContentText(String.format("No more contacts!"));
+            alert.setContentText("No more contacts!");
             alert.showAndWait();
         }
     }
@@ -112,19 +116,22 @@ public class MainController implements Initializable
     @FXML
     private void action_add()
     {
-        NewAccController.show(new Stage());
+        NewAccController.show(new Stage(), phonebook, ctrl);
     }
 
     @FXML
     private void action_export()
     {
-        FileController.show(new Stage(), true, phonebook, label_indicator);
+        FileController.show(new Stage(), true, phonebook);
     }
 
     @FXML
     private void action_delete()
     {
-
+        phonebook.deletePerson(currentIndex);
+        currentIndex--;
+        displayPerson(currentIndex);
+        //label_indicator.setText(build_indicator());
     }
 
     @FXML
@@ -134,12 +141,13 @@ public class MainController implements Initializable
         {
             displayPerson(currentIndex + 1);
             currentIndex++;
+            //label_indicator.setText(build_indicator());
         }
         catch (IndexOutOfBoundsException exception)
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("No more contacts");
-            alert.setContentText(String.format("No more contacts!"));
+            alert.setContentText("No more contacts!");
             alert.showAndWait();
         }
     }
@@ -147,13 +155,14 @@ public class MainController implements Initializable
     @FXML
     private void action_save()
     {
-
+        phonebook.update(currentIndex, textField_name.getText(), textField_address.getText(), textField_phone.getText());
     }
 
     @FXML
     private void action_import()
     {
-        FileController.show(new Stage(), false, phonebook, label_indicator);
+        FileController.show(new Stage(), false, phonebook);
+        //label_indicator.setText(build_indicator());
     }
 
     private void displayPerson(int index)
@@ -162,4 +171,26 @@ public class MainController implements Initializable
             textField_address.setText(phonebook.getCurrentPerson(index).getAddress());
             textField_phone.setText(phonebook.getCurrentPerson(index).getPhone());
     }
+
+    /*
+    private String build_indicator()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < phonebook.getSize(); i++)
+        {
+            indicator.set(i, ".");
+        }
+        indicator.set(currentIndex, "|");
+        for (String s : indicator) stringBuilder.append(s);
+        return stringBuilder.toString();
+    }
+
+    public void displayIndicator()
+    {
+        label_indicator.setText(build_indicator());
+    }
+
+     */
+
 }

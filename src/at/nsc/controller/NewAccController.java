@@ -1,5 +1,6 @@
 package at.nsc.controller;
 
+import at.nsc.model.Phonebook;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,8 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,6 +22,8 @@ import java.util.ResourceBundle;
 public class NewAccController implements Initializable
 {
     private Stage stage;
+    private static Phonebook phonebook;
+    private static MainController mCtrl;
     @FXML
     private TextField textField_name;
     @FXML
@@ -34,7 +35,7 @@ public class NewAccController implements Initializable
     @FXML
     private Button button_save;
 
-    public static void show(Stage stage)
+    public static void show(Stage stage, Phonebook pb, MainController controller)
     {
         try
         {
@@ -49,6 +50,8 @@ public class NewAccController implements Initializable
             stage.getIcons().add(new Image("/at/nsc/images/icon_add.png"));
             stage.setScene(new Scene(root));
             stage.show();
+            phonebook = pb;
+            mCtrl = controller;
         }
         catch (Exception exception)
         {
@@ -70,7 +73,9 @@ public class NewAccController implements Initializable
     @FXML
     private void action_save()
     {
-
+        phonebook.addPerson(textField_name.getText(), textField_address.getText(), textField_phone.getText());
+        stage.close();
+        //mCtrl.displayIndicator();
     }
 
     @Override

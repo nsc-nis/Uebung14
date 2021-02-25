@@ -13,7 +13,7 @@ import java.util.Locale;
  */
 public class Phonebook
 {
-    private List<Person> list_persons = new LinkedList<Person>();
+    private final List<Person> list_persons = new LinkedList<>();
 
     public void save(String fileName)
     {
@@ -22,14 +22,13 @@ public class Phonebook
             bufferedWriter.write("Name;Address;Phone");
             bufferedWriter.newLine();
 
-            for (int i = 0; i < list_persons.size(); i++)
-            {
-                bufferedWriter.write(list_persons.get(i).getName() + ";" + list_persons.get(i).getAddress() + ";" + list_persons.get(i).getPhone());
+            for (Person list_person : list_persons) {
+                bufferedWriter.write(list_person.getName() + ";" + list_person.getAddress() + ";" + list_person.getPhone());
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Save successful");
-            alert.setContentText(String.format("File successfully saved!"));
+            alert.setContentText("File successfully saved!");
             alert.showAndWait();
         }
         catch (IOException exception)
@@ -43,7 +42,7 @@ public class Phonebook
         }
     }
 
-    public boolean load(String fileName)
+    public void load(String fileName)
     {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(String.format("saves/%s.csv", fileName))))
         {
@@ -57,8 +56,6 @@ public class Phonebook
                     String[] row = s.split(";");
                     list_persons.add(new Person(row[0], row[1], row[2]));
                 }
-
-                return true;
 
             }
             else
@@ -78,7 +75,6 @@ public class Phonebook
             System.err.println(exception.getMessage());
             exception.printStackTrace(System.err);
         }
-        return false;
     }
 
     public void addPerson(String name, String address, String phoneNumber)
@@ -94,5 +90,17 @@ public class Phonebook
     public void deletePerson(int index)
     {
         list_persons.remove(index);
+    }
+
+    public void update(int index, String name, String address, String phone)
+    {
+        list_persons.get(index).setName(name);
+        list_persons.get(index).setAddress(address);
+        list_persons.get(index).setPhone(phone);
+    }
+
+    public int getSize()
+    {
+        return list_persons.size();
     }
 }
