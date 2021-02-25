@@ -51,9 +51,7 @@ public class Phonebook
                 String line;
                 while(((line = fileReader.readLine()) != null))
                 {
-                    String s;
-                    s = fileReader.readLine();
-                    String[] row = s.split(";");
+                    String[] row = line.split(";");
                     list_persons.add(new Person(row[0], row[1], row[2]));
                 }
 
