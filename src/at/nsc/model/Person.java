@@ -2,21 +2,19 @@ package at.nsc.model;
 
 /**Übung 14 - Model
  * @author Niklas Schachl
- * @version 1.0, 18.2.2021
+ * @version 1.0, 25.2.2021
  */
 public class Person
 {
     private String name;
     private String Address;
     private String phone;
-    private int indexOfPredecessor;
 
-    public Person(String name, String address, String phone, int indexOfPredecessor)
+    public Person(String name, String address, String phone)
     {
         this.name = name;
         Address = address;
         this.phone = phone;
-        this.indexOfPredecessor = indexOfPredecessor;
     }
 
     public String getName() {
@@ -41,13 +39,5 @@ public class Person
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public int getIndexOfPredecessor() {
-        return indexOfPredecessor;
-    }
-
-    public void setIndexOfPredecessor(int indexOfPredecessor) {
-        this.indexOfPredecessor = indexOfPredecessor;
     }
 }

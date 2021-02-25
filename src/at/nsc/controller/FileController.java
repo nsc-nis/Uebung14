@@ -1,5 +1,6 @@
 package at.nsc.controller;
 
+import at.nsc.model.Phonebook;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -7,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +23,10 @@ import java.util.ResourceBundle;
  */
 public class FileController implements Initializable
 {
-    private String fileName;
+    private static String fileName;
+    private static boolean isExport;
+    private static Phonebook phonebookF;
+    private static Label labelIndicator;
     private Stage stage;
     @FXML
     private TextField textField_fileName;
@@ -30,25 +35,24 @@ public class FileController implements Initializable
     @FXML
     private Button button_next;
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public static void show(Stage stage)
+    public static void show(Stage stage, boolean export, Phonebook phonebook, Label label)
     {
         try
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(FileController.class.getResource("/at/nsc/view/newAccView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(FileController.class.getResource("/at/nsc/view/fileView.fxml"));
             Parent root = fxmlLoader.load();
 
             //get controller which is connected to this fxml file
             FileController ctrl = fxmlLoader.getController();
             ctrl.stage = stage;
 
-            stage.setTitle("File path selector");
-            stage.getIcons().add(new Image("/at/nsc/images/icon_import.png"));
+            stage.setTitle("File Path selector");
+            stage.getIcons().add(new Image("/at/nsc/images/icon_export.png"));
             stage.setScene(new Scene(root));
             stage.show();
+            isExport = export;
+            phonebookF = phonebook;
+            labelIndicator = label;
         }
         catch (Exception exception)
         {
@@ -78,5 +82,14 @@ public class FileController implements Initializable
     private void action_next()
     {
         fileName = textField_fileName.getText();
+        stage.close();
+
+        if (isExport)
+            phonebookF.save(fileName);
+        else {
+            if (phonebookF.load(fileName))
+                labelIndicator.setText(labelIndicator.getText() + ".");
+        }
+
     }
 }

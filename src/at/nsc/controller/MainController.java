@@ -1,5 +1,6 @@
 package at.nsc.controller;
 
+import at.nsc.model.Phonebook;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +24,8 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable
 {
     private Stage stage;
+    private Phonebook phonebook = new Phonebook();
+    private int currentIndex = 0;
 
     @FXML
     private Label label_indicator;
@@ -84,12 +87,26 @@ public class MainController implements Initializable
         button_save.setGraphic(new ImageView(new Image("/at/nsc/images/icon_save.png")));
         button_export.setGraphic(new ImageView(new Image("at/nsc/images/icon_export.png")));
         button_import.setGraphic(new ImageView(new Image("at/nsc/images/icon_import.png")));
+
+        phonebook.addPerson("Max Mustermann", "Musterweg 1", "+43 664 656565");
+        displayPerson(currentIndex);
     }
 
     @FXML
     private void action_back()
     {
-
+        try
+        {
+            displayPerson(currentIndex - 1);
+            currentIndex--;
+        }
+        catch (IndexOutOfBoundsException exception)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No more contacts");
+            alert.setContentText(String.format("No more contacts!"));
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -101,7 +118,7 @@ public class MainController implements Initializable
     @FXML
     private void action_export()
     {
-
+        FileController.show(new Stage(), true, phonebook, label_indicator);
     }
 
     @FXML
@@ -113,7 +130,18 @@ public class MainController implements Initializable
     @FXML
     private void action_next()
     {
-
+        try
+        {
+            displayPerson(currentIndex + 1);
+            currentIndex++;
+        }
+        catch (IndexOutOfBoundsException exception)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No more contacts");
+            alert.setContentText(String.format("No more contacts!"));
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -125,6 +153,13 @@ public class MainController implements Initializable
     @FXML
     private void action_import()
     {
+        FileController.show(new Stage(), false, phonebook, label_indicator);
+    }
 
+    private void displayPerson(int index)
+    {
+            textField_name.setText(phonebook.getCurrentPerson(index).getName());
+            textField_address.setText(phonebook.getCurrentPerson(index).getAddress());
+            textField_phone.setText(phonebook.getCurrentPerson(index).getPhone());
     }
 }
