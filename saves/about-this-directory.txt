@@ -1,0 +1,2 @@
+Your phonebook will be saved here.
+Therefore please DO NOT DELETE THIS DIRECTORY!
