@@ -23,7 +23,6 @@ public class NewAccController implements Initializable
 {
     private Stage stage;
     private static Phonebook phonebook;
-    private static MainController mCtrl;
     @FXML
     private TextField textField_name;
     @FXML
@@ -35,7 +34,7 @@ public class NewAccController implements Initializable
     @FXML
     private Button button_save;
 
-    public static void show(Stage stage, Phonebook pb, MainController controller)
+    public static void show(Stage stage, Phonebook pb)
     {
         try
         {
@@ -51,12 +50,12 @@ public class NewAccController implements Initializable
             stage.setScene(new Scene(root));
             stage.show();
             phonebook = pb;
-            mCtrl = controller;
         }
         catch (Exception exception)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Internal Error");
+            alert.setResizable(true);
             alert.setContentText(String.format("An internal Error occurred. Please restart the program%nor contact the developer on GitHub%n%nError message: %s", exception.getMessage()));
             alert.showAndWait();
             System.err.println(exception.getMessage());
@@ -75,7 +74,6 @@ public class NewAccController implements Initializable
     {
         phonebook.addPerson(textField_name.getText(), textField_address.getText(), textField_phone.getText());
         stage.close();
-        //mCtrl.displayIndicator();
     }
 
     @Override

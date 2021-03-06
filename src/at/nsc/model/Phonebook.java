@@ -3,27 +3,34 @@ package at.nsc.model;
 import javafx.scene.control.Alert;
 
 import java.io.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**Übung 14 - MOdel
  * @author Niklas Schachl
- * @version 1.0, 25.2.2021
+ * @version 1.1, 6.3.2021
  */
 public class Phonebook
 {
-    private final List<Person> list_persons = new LinkedList<>();
+    private TreeSet<Person> list_persons;
+    private final String fileName = "phonebook.csv";
 
-    public void save(String fileName)
+    public Phonebook()
     {
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.format("saves/%s.csv", fileName))))
+        list_persons = new TreeSet<>();
+
+        load();
+    }
+
+    public void save()
+    {
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.format("saves/%s", fileName))))
         {
             bufferedWriter.write("Name;Address;Phone");
             bufferedWriter.newLine();
 
-            for (Person list_person : list_persons) {
-                bufferedWriter.write(list_person.getName() + ";" + list_person.getAddress() + ";" + list_person.getPhone());
+            for (Person person : list_persons) {
+                bufferedWriter.write(person.toString());
+                bufferedWriter.newLine();
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -33,8 +40,9 @@ public class Phonebook
         }
         catch (IOException exception)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Save Error");
+            alert.setResizable(true);
             alert.setContentText(String.format("Could not save file!%n%nError message: %s", exception.getMessage()));
             alert.showAndWait();
             System.err.println(exception.getMessage());
@@ -42,19 +50,19 @@ public class Phonebook
         }
     }
 
-    public void load(String fileName)
+    public void load()
     {
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(String.format("saves/%s.csv", fileName))))
+        list_persons.clear();
+
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(String.format("saves/%s", fileName))))
         {
             if (fileReader.readLine().toUpperCase(Locale.ROOT).equals("NAME;ADDRESS;PHONE"))
             {
                 String line;
                 while(((line = fileReader.readLine()) != null))
                 {
-                    String[] row = line.split(";");
-                    list_persons.add(new Person(row[0], row[1], row[2]));
+                    list_persons.add(Person.fromString(line, this));
                 }
-
             }
             else
             {
@@ -64,41 +72,103 @@ public class Phonebook
                 alert.showAndWait();
             }
         }
-        catch (Exception exception)
+        catch (FileNotFoundException exception)
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
+            try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(String.format("saves/%s", fileName))))
+            {
+                bufferedWriter.write("Name;Address;Phone");
+                bufferedWriter.newLine();
+            }
+            catch (IOException ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Internal Error");
+                alert.setResizable(true);
+                alert.setContentText(String.format("An internal Error occurred. Please restart the program%nor contact the developer on GitHub%n%nError message: %s", ex.getMessage()));
+                alert.showAndWait();
+                System.err.println(ex.getMessage());
+                ex.printStackTrace(System.err);
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No file");
+            alert.setContentText("There was no file, so a new one was created");
+            alert.showAndWait();
+        }
+        catch (IOException exception)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Load Error");
+            alert.setResizable(true);
             alert.setContentText(String.format("Could not load file!%n%nError message: %s", exception.getMessage()));
             alert.showAndWait();
             System.err.println(exception.getMessage());
             exception.printStackTrace(System.err);
         }
+
     }
 
-    public void addPerson(String name, String address, String phoneNumber)
-    {
-        list_persons.add(new Person(name, address, phoneNumber));
+    public Person firstPerson() {
+        Person first;
+        try {
+            first = list_persons.first();
+        }
+        catch (NoSuchElementException ex) {
+            first = null;
+        }
+        return first;
     }
 
-    public Person getCurrentPerson(int index)
+    public void addPerson(Person person)
     {
-        return list_persons.get(index);
+        list_persons.add(person);
+        person.setIndex(getIndexOfPerson(person));
     }
 
-    public void deletePerson(int index)
+    public void addPerson(String name, String address, String phone)
     {
-        list_persons.remove(index);
+        Person person = new Person(this, name, address, phone);
+        list_persons.add(person);
+        person.setIndex(getIndexOfPerson(person));
     }
 
-    public void update(int index, String name, String address, String phone)
+    public void deletePerson(Person person)
     {
-        list_persons.get(index).setName(name);
-        list_persons.get(index).setAddress(address);
-        list_persons.get(index).setPhone(phone);
+        list_persons.remove(person);
     }
 
     public int getSize()
     {
         return list_persons.size();
+    }
+
+    public Person getPrevious(Person person)
+    {
+        return list_persons.lower(person);
+    }
+
+    public Person getNext(Person person)
+    {
+        return list_persons.higher(person);
+    }
+
+    public int getIndexOfPerson(Person person) {
+        int index = -1;
+        int i = 0;
+
+        for (Person p : list_persons) {
+            i++;
+            if (p == person) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public void sort() {
+        TreeSet<Person> neu = new TreeSet<>();
+        for (Person p: list_persons) {
+            neu.add(p);
+        }
+        list_persons = neu;
     }
 }
