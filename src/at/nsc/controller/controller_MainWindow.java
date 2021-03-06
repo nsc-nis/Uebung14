@@ -22,12 +22,12 @@ import java.util.ResourceBundle;
  * @author Niklas Schachl
  * @version 1.1, 5.3.2021
  */
-public class MainController implements Initializable
+public class controller_MainWindow implements Initializable
 {
     private Phonebook phonebook;
     private Person currentPerson;
     private int currentIndex;
-    public static MainController ctrl;
+    public static controller_MainWindow ctrl;
 
     @FXML
     private Label label_indicator;
@@ -48,7 +48,7 @@ public class MainController implements Initializable
     @FXML
     private Button button_save;
 
-    public MainController()
+    public controller_MainWindow()
     {
 
     }
@@ -57,7 +57,7 @@ public class MainController implements Initializable
     {
         try
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("/at/nsc/view/mainView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(controller_MainWindow.class.getResource("/at/nsc/view/view_MainWindow.fxml"));
             Parent root = fxmlLoader.load();
 
             //get controller which is connected to this fxml file
@@ -83,14 +83,18 @@ public class MainController implements Initializable
         }
     }
 
-    private void startup(Stage stage) {
+    private void startup(Stage stage)
+    {
         phonebook = new Phonebook();
 
         // Database will be saved on closing
-        stage.setOnCloseRequest(windowEvent -> phonebook.save());
+        stage.setOnCloseRequest(windowEvent -> {
+            if (phonebook.isNotSaved())
+                controller_ExitWindow.show(new Stage(), phonebook);
+        });
 
         // display first entry
-        currentPerson = new Person(phonebook,"Max Mustermann", "Musterweg 1", "+43 664 656565");
+        currentPerson = new Person(phonebook,"Max Mustermann", "Musterweg 1", "0664/656565");
         phonebook.addPerson(currentPerson);
         currentPerson = phonebook.firstPerson();
         currentIndex = currentPerson.getIndex();
@@ -143,6 +147,7 @@ public class MainController implements Initializable
             action_save();
             currentPerson = new Person(phonebook, "", "", "");
             displayPerson();
+            phonebook.sort();
             //currentIndex = currentPerson.getIndex();
             //displayIndicator();
         }

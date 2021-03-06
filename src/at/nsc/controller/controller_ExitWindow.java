@@ -17,20 +17,13 @@ import java.util.ResourceBundle;
 
 /**Übung 14 - Controller
  * @author Niklas Schachl
- * @version 1.0, 20.2.2021
+ * @version 1.1, 6.3.2021
  */
-public class NewAccController implements Initializable
+public class controller_ExitWindow
 {
     private Stage stage;
     private static Phonebook phonebook;
-    @FXML
-    private TextField textField_name;
-    @FXML
-    private TextField textField_address;
-    @FXML
-    private TextField textField_phone;
-    @FXML
-    private Button button_cancel;
+
     @FXML
     private Button button_save;
 
@@ -38,15 +31,15 @@ public class NewAccController implements Initializable
     {
         try
         {
-            FXMLLoader fxmlLoader = new FXMLLoader(NewAccController.class.getResource("/at/nsc/view/newAccView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(controller_ExitWindow.class.getResource("/at/nsc/view/view_ExitWindow.fxml"));
             Parent root = fxmlLoader.load();
 
             //get controller which is connected to this fxml file
-            NewAccController ctrl = fxmlLoader.getController();
+            controller_ExitWindow ctrl = fxmlLoader.getController();
             ctrl.stage = stage;
 
-            stage.setTitle("Account Creation Wizard");
-            stage.getIcons().add(new Image("/at/nsc/images/icon_add.png"));
+            stage.setTitle("Unsaved Changes");
+            stage.getIcons().add(new Image("/at/nsc/images/icon_save.png"));
             stage.setScene(new Scene(root));
             stage.show();
             phonebook = pb;
@@ -64,7 +57,7 @@ public class NewAccController implements Initializable
     }
 
     @FXML
-    private void action_cancel()
+    private void action_dontSave()
     {
         stage.close();
     }
@@ -72,14 +65,7 @@ public class NewAccController implements Initializable
     @FXML
     private void action_save()
     {
-        phonebook.addPerson(textField_name.getText(), textField_address.getText(), textField_phone.getText());
+        phonebook.save();
         stage.close();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-        button_cancel.setGraphic(new ImageView(new Image("at/nsc/images/icon_delete.png")));
-        button_save.setGraphic(new ImageView(new Image("/at/nsc/images/icon_save.png")));
     }
 }

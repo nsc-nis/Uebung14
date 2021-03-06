@@ -104,7 +104,6 @@ public class Phonebook
             System.err.println(exception.getMessage());
             exception.printStackTrace(System.err);
         }
-
     }
 
     public Person firstPerson() {
@@ -124,8 +123,7 @@ public class Phonebook
         person.setIndex(getIndexOfPerson(person));
     }
 
-    public void addPerson(String name, String address, String phone)
-    {
+    public void addPerson(String name, String address, String phone)  {
         Person person = new Person(this, name, address, phone);
         list_persons.add(person);
         person.setIndex(getIndexOfPerson(person));
@@ -164,11 +162,50 @@ public class Phonebook
         return index;
     }
 
-    public void sort() {
+    public void sort()
+    {
         TreeSet<Person> neu = new TreeSet<>();
         for (Person p: list_persons) {
             neu.add(p);
         }
         list_persons = neu;
+
+        for (Person person : list_persons) {
+            person.setIndex(getIndexOfPerson(person));
+        }
+    }
+
+    public boolean isNotSaved()
+    {
+        TreeSet<Person> file = new TreeSet<>();
+
+        Iterator<Person> iterator = list_persons.iterator();
+        Iterator<Person> fileIterator = file.iterator();
+
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(String.format("saves/%s", fileName))))
+        {
+            fileReader.readLine();
+            String line;
+            while(((line = fileReader.readLine()) != null))
+            {
+                file.add(Person.fromString(line, this));
+            }
+        }
+        catch (Exception ignored)
+        {
+
+        }
+
+        while (fileIterator.hasNext())
+        {
+            if (iterator.hasNext())
+            {
+                if (fileIterator.next() != iterator.next())
+                    return false;
+            }
+            else
+                return false;
+        }
+        return true;
     }
 }

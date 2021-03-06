@@ -30,8 +30,21 @@ public class Person implements Comparable
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String name)
+    {
+        /*
+        Wieso ist if(name.equals(null)) immer false?
+
+        if (name.equals(null))
+            Alert_phonebook.showAlert("There has to be a name for the contact");
+        else
+            this.name = name;
+
+         */
+        if (name == null)
+            Alert_phonebook.showAlert("There has to be a name for the contact");
+        else
+            this.name = name;
     }
 
     public String getAddress() {
@@ -46,8 +59,40 @@ public class Person implements Comparable
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone(String phone)
+    {
+        /*
+        Hier ist das selbe Problem wie oben, wenn ich if(phone == null) schreibe, funktioniert es nicht, und wenn ich if(phone.equals(null)) schreibe, sagt IntelliJ dass das immer "false" ist?
+         */
+        if (phone ==null)
+        {
+            Alert_phonebook.showAlert("There has to be a phone number for the contact");
+        }
+        else
+        {
+            boolean isCorrect = true;
+            char[] number = phone.toCharArray();
+
+            for (char c : number) {
+                try {
+                    Integer.parseInt(String.valueOf(c));
+                } catch (Exception exception) {
+                    if (c == '/')
+                        isCorrect = true;
+                    else if (number[0] == '+')
+                        isCorrect = true;
+                    else if (c == ' ')
+                        isCorrect = true;
+                    else
+                        isCorrect = false;
+                }
+            }
+
+            if (isCorrect)
+                this.phone = phone;
+            else
+                Alert_phonebook.showAlert("The phone number is only allowed to contain numbers, spaces, \"/\" and \"+\"");
+        }
     }
 
     public void setIndex(int index) {

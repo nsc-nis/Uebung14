@@ -1,6 +1,6 @@
 package at.nsc.main;
 
-import at.nsc.controller.MainController;
+import at.nsc.controller.controller_MainWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -18,6 +18,6 @@ public class Main extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
-        MainController.show(stage);
+        controller_MainWindow.show(stage);
     }
 }
