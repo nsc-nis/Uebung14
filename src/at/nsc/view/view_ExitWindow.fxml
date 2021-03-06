@@ -27,12 +27,12 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="button_dontSave" mnemonicParsing="false" onAction="#action_dontSave" prefHeight="48.0" prefWidth="136.0" text="Don't save">
+            <Button mnemonicParsing="false" onAction="#action_dontSave" prefHeight="48.0" prefWidth="136.0" text="Don't save">
                <HBox.margin>
                   <Insets bottom="5.0" left="245.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="button_save" defaultButton="true" mnemonicParsing="false" onAction="#action_save" prefHeight="48.0" prefWidth="136.0" text="Save">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#action_save" prefHeight="48.0" prefWidth="136.0" text="Save">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

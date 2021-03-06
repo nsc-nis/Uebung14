@@ -123,12 +123,6 @@ public class Phonebook
         person.setIndex(getIndexOfPerson(person));
     }
 
-    public void addPerson(String name, String address, String phone)  {
-        Person person = new Person(this, name, address, phone);
-        list_persons.add(person);
-        person.setIndex(getIndexOfPerson(person));
-    }
-
     public void deletePerson(Person person)
     {
         list_persons.remove(person);

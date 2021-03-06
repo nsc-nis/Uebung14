@@ -148,8 +148,6 @@ public class controller_MainWindow implements Initializable
             currentPerson = new Person(phonebook, "", "", "");
             displayPerson();
             phonebook.sort();
-            //currentIndex = currentPerson.getIndex();
-            //displayIndicator();
         }
         catch (Exception exception)
         {
