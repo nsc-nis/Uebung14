@@ -118,8 +118,9 @@ public class MainController implements Initializable
             if (person != null)
             {
                 currentPerson = person;
+                currentIndex = currentPerson.getIndex();
             }
-            currentIndex = currentPerson.getIndex();
+            //currentIndex = currentPerson.getIndex();
             displayPerson();
             displayIndicator();
 
@@ -142,8 +143,8 @@ public class MainController implements Initializable
             action_save();
             currentPerson = new Person(phonebook, "", "", "");
             displayPerson();
-            currentIndex = currentPerson.getIndex();
-            displayIndicator();
+            //currentIndex = currentPerson.getIndex();
+            //displayIndicator();
         }
         catch (Exception exception)
         {
@@ -155,6 +156,8 @@ public class MainController implements Initializable
             System.err.println(exception.getMessage());
             exception.printStackTrace(System.err);
         }
+        currentIndex = currentPerson.getIndex();
+        displayIndicator();
     }
 
     @FXML
@@ -193,6 +196,8 @@ public class MainController implements Initializable
             System.err.println(exception.getMessage());
             exception.printStackTrace(System.err);
         }
+        currentIndex = currentPerson.getIndex();
+        displayIndicator();
     }
 
     @FXML
@@ -217,6 +222,9 @@ public class MainController implements Initializable
             alert.setContentText("No more contacts!");
             alert.showAndWait();
         }
+        currentIndex = currentPerson.getIndex();
+        displayPerson();
+        displayIndicator();
     }
 
     @FXML
@@ -242,9 +250,10 @@ public class MainController implements Initializable
 
     private String build_indicator()
     {
+        currentIndex = currentPerson.getIndex();
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 0; i < phonebook.getSize(); i++)
+        for (int i = 1; i <= phonebook.getSize(); i++)
         {
             if (i == currentIndex)
                 stringBuilder.append("|");
